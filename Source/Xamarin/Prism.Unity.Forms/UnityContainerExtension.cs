@@ -48,8 +48,9 @@ namespace Prism.Unity
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
             ParameterOverrides overrides = null;
+            var page = (view as Xamarin.Forms.Page) ?? Common.PageUtilities.GetPageFromElement(view as Xamarin.Forms.Element);
 
-            if (view is Xamarin.Forms.Page page)
+            if (page != null)
             {
                 overrides = new ParameterOverrides
                     {

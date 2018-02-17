@@ -57,14 +57,14 @@ namespace Prism.DryIoc
 
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
-            switch (view)
+            var page = (view as Page) ?? Common.PageUtilities.GetPageFromElement(view as Element);
+            if(page != null)
             {
-                case Page page:
-                    var getVM = Instance.Resolve<Func<Page, object>>(viewModelType);
-                    return getVM(page);
-                default:
-                    return Instance.Resolve(viewModelType);
+                var getVM = Instance.Resolve<Func<Page, object>>(viewModelType);
+                return getVM(page);
             }
+
+            return Instance.Resolve(viewModelType);
         }
     }
 }

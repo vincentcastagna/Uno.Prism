@@ -59,7 +59,8 @@ namespace Prism.Autofac
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
             NamedParameter parameter = null;
-            if (view is Page page)
+            var page = (view as Page) ?? Common.PageUtilities.GetPageFromElement(view as Element);
+            if(page != null)
             {
                 parameter = new NamedParameter(PrismApplicationBase.NavigationServiceParameterName, this.CreateNavigationService(page));
             }

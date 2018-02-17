@@ -266,5 +266,18 @@ namespace Prism.Common
             if (vmlResult == null)
                 Mvvm.ViewModelLocator.SetAutowireViewModel(page, true);
         }
+
+        public static Page GetPageFromElement(Element element)
+        {
+            switch(element)
+            {
+                case Page page:
+                    return page;
+                case null:
+                    return null;
+                default:
+                    return GetPageFromElement(element.Parent);
+            }
+        }
     }
 }
