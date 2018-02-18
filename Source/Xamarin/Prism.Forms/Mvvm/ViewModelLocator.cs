@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Linq;
+using Xamarin.Forms;
 
 namespace Prism.Mvvm
 {
@@ -50,6 +51,26 @@ namespace Prism.Mvvm
             BindableObject element = view as BindableObject;
             if (element != null)
                 element.BindingContext = viewModel;
+        }
+
+        /// <summary>
+        /// Will autowire the View with the ViewModel once the View's Parent is set.
+        /// </summary>
+        public static readonly BindableProperty AutowirePartialViewProperty =
+            BindableProperty.CreateAttached("AutowirePartialView", typeof(bool), typeof(ViewModelLocator), false, propertyChanged: OnAutowirePartialViewChanged);
+
+        public static bool GetAutowirePartialView(BindableObject bindable) =>
+            (bool)bindable.GetValue(AutowirePartialViewProperty);
+
+        private static void OnAutowirePartialViewChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var view = (View)bindable;
+            if (view == null) return;
+            
+            if((bool)newValue && !view.Behaviors.Any(b => b.GetType() == typeof(Behaviors.AutowirePartialViewBehavior)))
+            {
+                view.Behaviors.Add(new Behaviors.AutowirePartialViewBehavior());
+            }
         }
     }
 }
