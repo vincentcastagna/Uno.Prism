@@ -104,6 +104,12 @@ namespace Prism.Common
             return Task.FromResult(CanNavigate(page, parameters));
         }
 
+        public static bool IsActive(BindableObject page)
+        {
+            return (page is IActiveAware activeAwarePage && activeAwarePage.IsActive) ||
+                    (page.BindingContext is IActiveAware activeAwareBC && activeAwareBC.IsActive);
+        }
+
         public static bool CanNavigate(object page, INavigationParameters parameters)
         {
             var confirmNavigationItem = page as IConfirmNavigation;

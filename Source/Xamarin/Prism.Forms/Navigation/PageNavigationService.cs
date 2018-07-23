@@ -387,8 +387,10 @@ namespace Prism.Navigation
 
         async Task RemoveAndPush(Page currentPage, string nextSegment, Queue<string> segments, INavigationParameters parameters, bool? useModalNavigation, bool animated)
         {
-            List<Page> pagesToRemove = new List<Page>();
-            pagesToRemove.Add(currentPage);
+            List<Page> pagesToRemove = new List<Page>
+            {
+                currentPage
+            };
 
             var currentPageIndex = currentPage.Navigation.NavigationStack.Count;
             if (currentPage.Navigation.NavigationStack.Count > 0)
@@ -592,12 +594,10 @@ namespace Prism.Navigation
 
         protected static bool GetMasterDetailPageIsPresented(MasterDetailPage page)
         {
-            var iMasterDetailPage = page as IMasterDetailPageOptions;
-            if (iMasterDetailPage != null)
+            if (page is IMasterDetailPageOptions iMasterDetailPage)
                 return iMasterDetailPage.IsPresentedAfterNavigation;
 
-            var iMasterDetailPageBindingContext = page.BindingContext as IMasterDetailPageOptions;
-            if (iMasterDetailPageBindingContext != null)
+            if (page.BindingContext is IMasterDetailPageOptions iMasterDetailPageBindingContext)
                 return iMasterDetailPageBindingContext.IsPresentedAfterNavigation;
 
             return false;
@@ -605,12 +605,10 @@ namespace Prism.Navigation
 
         protected static bool GetClearNavigationPageNavigationStack(NavigationPage page)
         {
-            var iNavigationPage = page as INavigationPageOptions;
-            if (iNavigationPage != null)
+            if (page is INavigationPageOptions iNavigationPage)
                 return iNavigationPage.ClearNavigationStackOnNavigation;
 
-            var iNavigationPageBindingContext = page.BindingContext as INavigationPageOptions;
-            if (iNavigationPageBindingContext != null)
+            if (page.BindingContext is INavigationPageOptions iNavigationPageBindingContext)
                 return iNavigationPageBindingContext.ClearNavigationStackOnNavigation;
 
             return true;
@@ -670,20 +668,40 @@ namespace Prism.Navigation
 
             if (toPage is TabbedPage tabbedPage)
             {
+                var currentPage = GetCurrentTabbedPageChild(tabbedPage);
                 if (tabbedPage.CurrentPage is NavigationPage navigationPage)
                 {
                     PageUtilities.OnNavigatedTo(navigationPage.CurrentPage, parameters);
                 }
-                else
+                else if (tabbedPage.BindingContext != currentPage.BindingContext)
                 {
-                    if (tabbedPage.BindingContext != tabbedPage.CurrentPage.BindingContext)
-                        PageUtilities.OnNavigatedTo(tabbedPage.CurrentPage, parameters);
+                    PageUtilities.OnNavigatedTo(currentPage, parameters);
                 }
             }
             else if (toPage is CarouselPage carouselPage)
             {
                 PageUtilities.OnNavigatedTo(carouselPage.CurrentPage, parameters);
             }
+        }
+
+        private static Page GetCurrentTabbedPageChild(TabbedPage tabbedPage)
+        {
+            var current = tabbedPage.CurrentPage;
+            if (current != null) return current;
+
+            foreach (var page in tabbedPage.Children)
+            {
+                if (PageUtilities.IsActive(page))
+                {
+                    return page;
+                }
+                else if (page is NavigationPage navPage && PageUtilities.IsActive(navPage.CurrentPage))
+                {
+                    return navPage.CurrentPage;
+                }
+            }
+
+            return null;
         }
 
         private static void OnNavigatedFrom(Page fromPage, INavigationParameters parameters)
@@ -771,8 +789,7 @@ namespace Prism.Navigation
                     var tabSegements = tabToCreate.Split('|');
                     if (tabSegements.Length > 1)
                     {
-                        var navigationPage = CreatePageFromSegment(tabSegements[0]) as NavigationPage;
-                        if (navigationPage != null)
+                        if (CreatePageFromSegment(tabSegements[0]) is NavigationPage navigationPage)
                         {
                             var navigationPageChild = CreatePageFromSegment(tabSegements[1]);
 
