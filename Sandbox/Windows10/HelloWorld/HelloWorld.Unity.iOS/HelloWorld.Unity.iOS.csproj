@@ -11,7 +11,6 @@
     <AssemblyName>HelloWorld.Unity.iOS</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <ResourcesDirectory>..\HelloWorld.Unity.Shared\Strings</ResourcesDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -99,10 +98,13 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Uno.UI">
-      <Version>1.28.1-dev.2183</Version>
-    </PackageReference>
+    <PackageReference Include="Uno.UI" Version="1.31.0-dev.191" />
   </ItemGroup>
   <Import Project="..\HelloWorld.Unity.Shared\HelloWorld.Unity.Shared.projitems" Label="Shared" Condition="Exists('..\HelloWorld.Unity.Shared\HelloWorld.Unity.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Source\Prism\Prism.csproj" />
+    <ProjectReference Include="..\..\..\..\Source\Windows10\Prism.Unity.Windows\Prism.Unity.Windows.csproj" />
+    <ProjectReference Include="..\..\..\..\Source\Windows10\Prism.Windows\Prism.Windows.csproj" />
+  </ItemGroup>
 </Project>

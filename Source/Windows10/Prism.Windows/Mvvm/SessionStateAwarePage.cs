@@ -10,7 +10,7 @@ namespace Prism.Windows.Mvvm
     /// <summary>
     /// This is the base class that can be used for pages that need to be aware of layout changes and update the visual state accordingly.
     /// </summary>
-    public class SessionStateAwarePage : Page
+    public partial class SessionStateAwarePage : Page
     {
 
         /// <summary>

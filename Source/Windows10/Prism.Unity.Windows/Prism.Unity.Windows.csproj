@@ -20,13 +20,8 @@
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_WINDOWS_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_WINDOWS_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_UNITY_WINDOWS_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
-    
-    <!--
-    Temporary workaround for this issue https://github.com/nventive/Uno.SourceGeneration/issues/2
-    This disables the Uno.SourceGenerationTasks, which is fine for this project which does not contain
-    any xaml file.
-    -->
-    <BuildingInsideUnoSourceGenerator>true</BuildingInsideUnoSourceGenerator>
+
+    <PackageId>Uno.Prism.Unity.Windows</PackageId>
   </PropertyGroup>
 
   <!-- <ItemGroup>
