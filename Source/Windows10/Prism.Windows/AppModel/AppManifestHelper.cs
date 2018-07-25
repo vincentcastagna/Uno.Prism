@@ -9,8 +9,10 @@ namespace Prism.Windows.AppModel
     /// </summary>
     public static class AppManifestHelper
     {
+#if !HAS_UNO
         private static readonly XDocument manifest = XDocument.Load("AppxManifest.xml", LoadOptions.None);
         private static readonly XNamespace xNamespace = XNamespace.Get("http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+#endif
 
         /// <summary>
         /// Checks if the Search declaration was activated in the Package.appxmanifest.
@@ -18,7 +20,8 @@ namespace Prism.Windows.AppModel
         /// <returns>True if Search is declared</returns>
         public static bool IsSearchDeclared()
         {
-            // Get the Extension nodes located under Package/Applications/Extensions
+#if !HAS_UNO
+           // Get the Extension nodes located under Package/Applications/Extensions
             var extensions = manifest.Descendants(xNamespace + "Extension");
             foreach (var extension in extensions)
             {
@@ -27,7 +30,7 @@ namespace Prism.Windows.AppModel
                     return true;
                 }
             }
-
+#endif
             return false;
         }
 
@@ -37,6 +40,7 @@ namespace Prism.Windows.AppModel
         /// <returns>The Application Id</returns>
         public static string GetApplicationId()
         {
+#if !HAS_UNO
             // Get the Application node located under Package/Applications
             var applications = manifest.Descendants(xNamespace + "Application");
             foreach (var application in applications)
@@ -46,6 +50,7 @@ namespace Prism.Windows.AppModel
                     return application.Attribute("Id").Value;
                 }
             }
+#endif
             return string.Empty;
         }
     }

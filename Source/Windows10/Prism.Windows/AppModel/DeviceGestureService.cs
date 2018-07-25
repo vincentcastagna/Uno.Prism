@@ -30,9 +30,15 @@ namespace Prism.Windows.AppModel
             IsHardwareBackButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed");
             IsHardwareCameraButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "CameraPressed");
 
+#if HAS_UNO
+            IsKeyboardPresent = true;
+            IsMousePresent = true;
+            IsTouchPresent = true;
+#else
             IsKeyboardPresent = new KeyboardCapabilities().KeyboardPresent != 0;
             IsMousePresent = new MouseCapabilities().MousePresent != 0;
             IsTouchPresent = new TouchCapabilities().TouchPresent != 0;
+#endif
 
 #if WINDOWS_PHONE_APP
             if (IsHardwareBackButtonPresent)
@@ -46,14 +52,18 @@ namespace Prism.Windows.AppModel
                 HardwareButtons.CameraReleased += OnHardwareButtonCameraReleased;
             }
 
+#if !HAS_UNO
             if (IsMousePresent)
                 MouseDevice.GetForCurrentView().MouseMoved += OnMouseMoved;
+#endif
 
             SystemNavigationManager.GetForCurrentView().BackRequested += OnSystemNavigationManagerBackRequested;
 
+#if !HAS_UNO
             Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += OnAcceleratorKeyActivated;
 
             Window.Current.CoreWindow.PointerPressed += OnPointerPressed;
+#endif
 
         }
 
