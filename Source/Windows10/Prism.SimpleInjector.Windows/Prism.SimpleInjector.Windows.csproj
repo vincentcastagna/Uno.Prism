@@ -1,7 +1,8 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.15063</TargetFramework>
+    <TargetFrameworks>uap10.0.15063;MonoAndroid80;xamarinios10;netstandard2.0</TargetFrameworks>
+
     <Title>SimpleInjector for Prism for UWP</Title>
     <DebugType>pdbonly</DebugType>
     <!-- Summary is not actually supported at this time. Including the summary for future support. -->
@@ -19,12 +20,28 @@
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_SIMPLEINJECTOR_WINDOWS_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_SIMPLEINJECTOR_WINDOWS_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_SIMPLEINJECTOR_WINDOWS_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
+
+    <!--
+    Temporary workaround for this issue https://github.com/nventive/Uno.SourceGeneration/issues/2
+    This disables the Uno.SourceGenerationTasks, which is fine for this project which does not contain
+    any xaml file.
+    -->
+    <BuildingInsideUnoSourceGenerator>true</BuildingInsideUnoSourceGenerator>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CommonServiceLocator" Version="1.3.0" />
     <PackageReference Include="SimpleInjector" Version="4.3.0" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
+    <PackageReference Include="Uno.UI" Version="1.31.0-dev.191" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard'">
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <!-- <EmbeddedResource Include="Properties\Prism.SimpleInjector.Windows.rd.xml" /> -->
