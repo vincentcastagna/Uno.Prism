@@ -259,28 +259,28 @@ namespace Prism.Windows
 
             await InitializeShell(args);
 
-            if (Window.Current.Content != null && (!_isRestoringFromTermination || args != null))
+            if (global::Windows.UI.Xaml.Window.Current.Content != null && (!_isRestoringFromTermination || args != null))
             {
                 await OnActivateApplicationAsync(args);
             }
-            else if (Window.Current.Content != null && _isRestoringFromTermination && !_handledOnResume)
+            else if (global::Windows.UI.Xaml.Window.Current.Content != null && _isRestoringFromTermination && !_handledOnResume)
             {
                 await OnResumeApplicationAsync(args);
             }
 
             // Ensure the current window is active
-            Window.Current.Activate();
+            global::Windows.UI.Xaml.Window.Current.Activate();
         }
 
         private async Task InitializeShell(IActivatedEventArgs args)
         {
-            if (Window.Current.Content == null)
+            if (global::Windows.UI.Xaml.Window.Current.Content == null)
             {
                 Frame rootFrame = await InitializeFrameAsync(args);
 
                 Shell = CreateShell(rootFrame);
 
-                Window.Current.Content = Shell ?? rootFrame;
+                global::Windows.UI.Xaml.Window.Current.Content = Shell ?? rootFrame;
             }
         }
 
@@ -299,17 +299,17 @@ namespace Prism.Windows
             // See http://go.microsoft.com/fwlink/?LinkID=288842
             string tileId = AppManifestHelper.GetApplicationId();
 
-            if (Window.Current.Content != null && (!_isRestoringFromTermination || (args != null && args.TileId != tileId)))
+            if (global::Windows.UI.Xaml.Window.Current.Content != null && (!_isRestoringFromTermination || (args != null && args.TileId != tileId)))
             {
                 await OnLaunchApplicationAsync(args);
             }
-            else if (Window.Current.Content != null && _isRestoringFromTermination)
+            else if (global::Windows.UI.Xaml.Window.Current.Content != null && _isRestoringFromTermination)
             {
                 await OnResumeApplicationAsync(args);
             }
 
             // Ensure the current window is active
-            Window.Current.Activate();
+            global::Windows.UI.Xaml.Window.Current.Activate();
         }
 
         /// <summary>
