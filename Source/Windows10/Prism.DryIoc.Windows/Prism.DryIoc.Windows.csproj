@@ -22,6 +22,7 @@
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_DRYIOC_WINDOWS_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_DRYIOC_WINDOWS_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
     <RootNamespace>Prism.DryIoc</RootNamespace>
+    <PackageId>Uno.Prism.Autofac.Windows</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

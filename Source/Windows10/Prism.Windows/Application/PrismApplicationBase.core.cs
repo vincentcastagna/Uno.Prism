@@ -93,7 +93,7 @@ namespace Prism
                 TestResuming(startArgs);
                 OnStart(startArgs);
                 await OnStartAsync(startArgs);
-                Window.Current.Activate();
+                Windows.UI.Xaml.Window.Current.Activate();
             }
             catch (Exception ex)
             {

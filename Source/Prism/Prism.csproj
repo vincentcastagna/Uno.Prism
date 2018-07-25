@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard2.0;net45;uap10.0.15063;uap10.0.16299</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;netstandard2.0;net45;uap10.0.15063;MonoAndroid80;xamarinios10;uap10.0.16299</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard1.0;netstandard2.0</TargetFrameworks>
     <AssemblyName>Prism</AssemblyName>
     <PackageId>Prism.Core</PackageId>
@@ -21,6 +21,8 @@
     <VersionPrefix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(BUILD_BUILDID)' != '' ">$(VersionPrefix).$(BUILD_BUILDID)</VersionPrefix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(BUILD_BUILDID)' != '' And !'$(IS_RELEASE)' ">ci</VersionSuffix>
     <VersionSuffix Condition=" '$(PRISM_RELEASE)' == '' And '$(PRISM_CORE_VERSION)' == '' And '$(IS_PREVIEW)' ">pre</VersionSuffix>
+    
+    <PackageId>Uno.Prism</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

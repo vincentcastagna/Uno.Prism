@@ -15,7 +15,7 @@ using Windows.UI.Xaml;
 
 namespace Prism.Navigation
 {
-    public class FrameFacadeProps : DependencyObject
+    public partial class FrameFacadeProps : DependencyObject
     {
         public static string GetCurrentNavigationPath(Frame obj)
             => (string)obj.GetValue(CurrentNavigationPathProperty);
