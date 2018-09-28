@@ -7,6 +7,9 @@ phases:
 
   steps:
   - task: GitVersion@3
+    # Ignore gitversion for forks, until this is fixed:
+    # https://developercommunity.visualstudio.com/content/problem/284991/public-vsts-previouw-cant-set-build-number-of-pr-b.html
+    condition: eq(variables['System.PullRequest.IsFork'], 'False')
     inputs:
       updateAssemblyInfo: false   
       
@@ -52,7 +55,9 @@ phases:
       createLogFile: false
 
   - task: PublishBuildArtifacts@1
-    condition: always()
+    # Ignore gitversion for forks, until this is fixed:
+    # https://developercommunity.visualstudio.com/content/problem/284991/public-vsts-previouw-cant-set-build-number-of-pr-b.html
+    condition: eq(variables['System.PullRequest.IsFork'], 'False')
     inputs:
       PathtoPublish: '$(build.artifactstagingdirectory)'
       ArtifactName: Prism-drop
