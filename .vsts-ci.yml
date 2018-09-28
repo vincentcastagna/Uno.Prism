@@ -4,6 +4,8 @@ phases:
     NUGET_PACKAGES: $(Agent.WorkFolder)\.nuget
     NUGET_HTTP_CACHE_PATH: $(Agent.WorkFolder)\.nuget-http-cache
     SourceLinkEnabled: false
+    GITVERSION.InformationalVersion: 0.1.0-PR
+    GITVERSION.FullSemVer: 0.1.0-PR
 
   steps:
   - task: GitVersion@3
