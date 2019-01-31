@@ -1,5 +1,4 @@
-﻿# Uno Platform port of Xaml Behaviors
-
+﻿# Uno Platform port of Prism
 This port allows for [Uno-based](https://github.com/nventive/Uno) apps to use [Prism](https://github.com/PrismLibrary/Prism) on Windows, iOS, Android and WebAssembly.
 
 The following packages are available:
